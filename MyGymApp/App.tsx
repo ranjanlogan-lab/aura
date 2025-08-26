@@ -1,52 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Provider as PaperProvider, Text, Button } from 'react-native-paper';
+import React, { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
+import { Provider as PaperProvider, Text } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { initializeDatabase } from './src/db/sqlite';
+import TodayScreen from './src/screens/TodayScreen';
+import ProgramScreen from './src/screens/ProgramScreen';
+import ProgressScreen from './src/screens/ProgressScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
 
-const Stack = createStackNavigator();
-
-function HomeScreen({ navigation }: any) {
-	return (
-		<View style={styles.container}>
-			<Text variant="titleLarge">MyGymApp</Text>
-			<Text>Works fully offline. No network required.</Text>
-			<Button mode="contained" onPress={() => navigation.navigate('Charts')}>Open Charts</Button>
-			<StatusBar style="auto" />
-		</View>
-	);
-}
-
-function ChartsScreen() {
-	return (
-		<View style={styles.container}>
-			<Text variant="titleLarge">Charts</Text>
-			<Text>Charts will render using recharts with local data.</Text>
-		</View>
-	);
-}
+const Tab = createBottomTabNavigator();
 
 export default function App() {
-	return (
-		<PaperProvider>
-			<NavigationContainer>
-				<Stack.Navigator>
-					<Stack.Screen name="Home" component={HomeScreen} />
-					<Stack.Screen name="Charts" component={ChartsScreen} />
-				</Stack.Navigator>
-			</NavigationContainer>
-		</PaperProvider>
-	);
+  useEffect(() => {
+    initializeDatabase();
+  }, []);
+
+  return (
+    <PaperProvider>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen name="Today" component={TodayScreen} />
+          <Tab.Screen name="Program" component={ProgramScreen} />
+          <Tab.Screen name="Progress" component={ProgressScreen} />
+          <Tab.Screen name="Settings" component={SettingsScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+      <StatusBar style="auto" />
+    </PaperProvider>
+  );
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-		padding: 16,
-		gap: 12,
-	},
-});
+const styles = StyleSheet.create({});
