@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { View, FlatList } from 'react-native';
-import { Text, Button, Card, TextInput, HelperText, Dialog, Portal } from 'react-native-paper';
+import { Text, Button, Card, TextInput, HelperText, Dialog, Portal, useTheme } from 'react-native-paper';
 import { workoutProgram } from '../data/workoutProgram';
 import { Exercise } from '../types/workout';
 import { logSet, markSessionComplete, saveDayNote } from '../db/sqlite';
@@ -15,6 +15,7 @@ function formatDate(d = new Date()): string {
 }
 
 export default function TodayScreen() {
+  const theme = useTheme();
   const todayIndex = useMemo(() => getTodayDayIndex(), []);
   const today = workoutProgram.days[todayIndex];
   const [weights, setWeights] = useState<Record<string, string>>({});
@@ -74,7 +75,7 @@ export default function TodayScreen() {
   };
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
+    <View style={{ flex: 1, padding: 16, backgroundColor: theme.colors.background }}>
       <Text variant="titleLarge" style={{ marginBottom: 8 }}>{today.dayName}</Text>
       <FlatList
         data={today.exercises}

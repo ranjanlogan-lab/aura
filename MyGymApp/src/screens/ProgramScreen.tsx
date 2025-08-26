@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { List, Switch, Text } from 'react-native-paper';
+import { List, Switch, Text, useTheme } from 'react-native-paper';
 import { workoutProgram } from '../data/workoutProgram';
 
 export default function ProgramScreen() {
+  const theme = useTheme();
   const [expanded, setExpanded] = useState<Record<number, boolean>>({});
   const [weakPoint, setWeakPoint] = useState<Record<string, boolean>>({});
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <List.Section>
         <List.Subheader>7-Day Workout Plan</List.Subheader>
         {workoutProgram.days.map(day => {

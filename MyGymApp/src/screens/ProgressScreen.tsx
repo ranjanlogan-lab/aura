@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
-import { Text, Card } from 'react-native-paper';
+import { ScrollView } from 'react-native';
+import { Text, Card, useTheme } from 'react-native-paper';
 import { getConsistency, getPersonalRecords, getWeeklyVolume } from '../db/sqlite';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Bar, BarChart, ResponsiveContainer, ComposedChart } from 'recharts';
+import { Line, XAxis, YAxis, CartesianGrid, Tooltip, Bar, BarChart, ResponsiveContainer, ComposedChart } from 'recharts';
 
 function getThisWeekRange(): { start: string; end: string } {
   const now = new Date();
@@ -16,6 +16,7 @@ function getThisWeekRange(): { start: string; end: string } {
 }
 
 export default function ProgressScreen() {
+  const theme = useTheme();
   const [volumeData, setVolumeData] = useState<Array<{ date: string; volume: number }>>([]);
   const [prs, setPrs] = useState<Array<{ exercise: string; maxWeight: number }>>([]);
   const [consistency, setConsistency] = useState<Array<{ date: string; complete: number }>>([]);
@@ -28,7 +29,7 @@ export default function ProgressScreen() {
   }, []);
 
   return (
-    <ScrollView style={{ flex: 1, padding: 16 }}>
+    <ScrollView style={{ flex: 1, padding: 16, backgroundColor: theme.colors.background }}>
       <Text variant="titleLarge" style={{ marginBottom: 8 }}>Progress</Text>
 
       <Card style={{ marginBottom: 16 }}>
